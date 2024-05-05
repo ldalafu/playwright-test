@@ -1,0 +1,21 @@
+{
+  "name": "exercise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test --project=chromium",
+    "test-headed": "npx playwright test --project=chromium --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.43.1",
+    "@types/node": "^20.12.8",
+    "dotenv": "^16.4.5"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.11"
+  }
+}
