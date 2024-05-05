@@ -1,5 +1,5 @@
 # Introduction 
-This is a sample test project functionality.
+This is a sample test project.
 
 # Getting Started
 
@@ -27,7 +27,17 @@ detailed descriptions with examples in the following sections.
 | pages     | Page Object Model class hierarchy where each class represents a UI page | UI element objects and methods     |
 
 ## Test Execution
-Tests can be executed using `npm run test-chromium`. This command is configured under `scripts` property in `package.json` file and runs tests in chromium browser.
+Tests can be executed using `npm run test`. This command is configured under `scripts` property in `package.json` file and runs tests in chromium browser.
+
+- run test headless
+  ```properties
+  npm run test
+  ````
+
+- run test headed
+  ```properties
+  npm run test-headed
+  ````
 
 For more debugging and running options, please refer [playwright docs.](https://playwright.dev/docs/running-tests#running-tests)
 
