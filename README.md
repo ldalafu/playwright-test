@@ -29,14 +29,18 @@ detailed descriptions with examples in the following sections.
 ## Test Execution
 Tests can be executed using `npm run test`. This command is configured under `scripts` property in `package.json` file and runs tests in chromium browser.
 
-- run test headless
+- run test headed in chrome
   ```properties
   npm run test
   ````
 
-- run test headed
+- run test headless in chrome
   ```properties
-  npm run test-headed
+  npm run chrome-headless
+  ````
+- run test headless in all browsers
+  ```properties
+  npm run all-headless
   ````
 
 For more debugging and running options, please refer [playwright docs.](https://playwright.dev/docs/running-tests#running-tests)
