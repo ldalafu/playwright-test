@@ -2,27 +2,24 @@ import { Locator, Page, expect} from "@playwright/test";
 import dayjs from 'dayjs';
 
 export class SearchFlightPage {
-    readonly txtFldOrgin: Locator
-    readonly txtFldDestination: Locator
-    readonly txtFldStartDate: Locator
-    readonly inputStartDate: Locator
-    readonly txtFldEndDate: Locator
-    readonly inputEndDate: Locator
-    readonly btnSearch: Locator
-    readonly page: Page
-    readonly lblSearchForFlight: Locator
+    private readonly page: Page
+    private readonly txtFldOrgin: Locator
+    private readonly txtFldDestination: Locator
+    private readonly inputStartDate: Locator
+    private readonly inputEndDate: Locator
+    private readonly btnSearch: Locator
+    private readonly lblSearchForFlight: Locator
+    private readonly datePicker: Locator
 
     constructor (page: Page) {
         this.page = page
         this.txtFldOrgin = page.getByLabel('From airport or city')
         this.txtFldDestination = page.getByLabel('To airport or city')
-        this.txtFldStartDate = page.getByLabel('Leave on date, in day day')
-        this.txtFldEndDate = page.getByLabel('Return on date, in day day')
         this.btnSearch = page.getByRole('button', { name: 'Search' })
         this.lblSearchForFlight = page.getByRole('heading', { name: 'Search for flights' })
         this.inputStartDate = page.locator('id=leaveDate')
         this.inputEndDate = page.locator('id=returnDate')
-
+        this.datePicker = page.locator('#calendarpanel-2')
     }
 
     /**
@@ -53,16 +50,22 @@ export class SearchFlightPage {
      * @param endDate - date format 'dd/mm'
      */
     async inputDates(startDate: string, endDate: string){
-        await this.txtFldStartDate.fill(dayjs(startDate).format("DD/MM"))
-        await this.txtFldStartDate.press("Enter")
-        await expect(this.inputStartDate).toHaveValue(dayjs(startDate).format("DD/MM"))
+        let endDD = dayjs(endDate).format("DD");
+        endDD = (endDD.substring(0,1) === '0') ? endDD.substring(1) : endDD ;
 
-        await this.txtFldEndDate.fill(dayjs(endDate).format("DD/MM"))
-        await this.txtFldEndDate.press("Enter")
-        await expect(this.inputEndDate).toHaveValue(dayjs(endDate).format("DD/MM"))
+        await this.inputStartDate.fill(dayjs(startDate).format("DD/MM"))
+        await this.inputStartDate.press("Enter")
+
+        await this.inputEndDate.fill(dayjs(endDate).format("DD/MM"))
+        await this.datePicker.waitFor({state:"visible"})
+        await this.datePicker.getByText(endDD, { exact: true }).first().click()
+
+        await this.lblSearchForFlight.click()
+        await this.datePicker.waitFor({state:'hidden'})
     }
 
     async clickSearch(){
         await this.btnSearch.click()
+        await this.btnSearch.waitFor({state: "hidden"})
     }
 }
